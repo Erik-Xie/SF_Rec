@@ -20,31 +20,30 @@ This project provides a recommendation system to suggest the top 4 potential ZIP
 - **ZIP Code Map**: Displays the geographical locations of the recommended ZIP codes on a map for easy visualization.
 
 ## Project Structure
-
-SF_REC
-├── app
-│   ├── __pycache__
-│   ├── routes
-│   │   ├── __pycache__
-│   │   ├── __init__.py
-│   │   ├── about.py
-│   │   ├── feature.py
-│   │   ├── home.py
-│   │   └── recommendation.py
-│   ├── static
-│   │   ├── pics
-│   │   └── videos
-│   └── templates
-│       ├── about.html
-│       ├── base.html
-│       ├── feature.html
-│       ├── home.html
-│       └── recommendation.html
-├── .gitignore
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── run.py
+    /SF_REC/
+    ├── app
+    │   ├── __pycache__
+    │   ├── routes
+    │   │   ├── __pycache__
+    │   │   ├── __init__.py
+    │   │   ├── about.py
+    │   │   ├── feature.py
+    │   │   ├── home.py
+    │   │   └── recommendation.py
+    │   ├── static
+    │   │   ├── pics
+    │   │   └── videos
+    │   └── templates
+    │       ├── about.html
+    │       ├── base.html
+    │       ├── feature.html
+    │       ├── home.html
+    │       └── recommendation.html
+    ├── .gitignore
+    ├── LICENSE
+    ├── README.md
+    ├── requirements.txt
+    └── run.py
 
 
 
