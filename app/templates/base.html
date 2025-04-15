@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: white;
+        overflow-x: hidden;
+      }
+
+      /* Vertical tab on the left */
+      .nav-trigger {
+        position: fixed;
+        top: 25%;
+        left: 0;
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        font-weight: 600;
+        letter-spacing: 3px;
+        background: white;
+        padding: 10px 8px;
+        cursor: pointer;
+        z-index: 1100;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Sidebar Menu */
+      .side-menu {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100%;
+        background-color: #dceef2;
+        transition: left 0.4s ease;
+        z-index: 1200;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 60px;
+        gap: 2rem;
+      }
+
+      .side-menu.active {
+        left: 0;
+      }
+
+      .side-menu h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #2a2a2a;
+      }
+
+      .side-menu h6 {
+        letter-spacing: 4px;
+        font-size: 0.75rem;
+        margin-bottom: 2.5rem;
+        color: #8c8b72;
+      }
+
+      .side-menu a {
+        text-decoration: none;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+        color: #355c58;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .side-menu a:hover {
+        color: #748e6e;
+        transform: translateX(8px);
+      }
+
+      .side-menu .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: 	#3e3e3e;
+        cursor: pointer;
+      }
+
+      .shifted {
+        margin-left: 300px;
+        transition: margin-left 0.4s ease;
+      }
+
+      .nav-trigger:hover {
+      background-color: #e8f5f9;
+      box-shadow: 0px 0px 12px rgba(150, 200, 220, 0.4);
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <!-- Nav Trigger Vertical Tab -->
+    <div class="nav-trigger" onclick="toggleMenu()">NAVIGATION</div>
+
+    <!-- Sidebar Menu -->
+    <div class="side-menu" id="sideMenu">
+      <button class="close-btn" onclick="toggleMenu()">&times;</button>
+
+      <!-- Branding -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1>SF Commercial Site</h1>
+        <h6>EXPLORE</h6>
+      </div>
+
+      <!-- Navigation Links -->
+      <a href="/">Home</a>
+      <a href="/feature">Features</a>
+      <a href="/recommendation">Recommendation</a>
+      <a href="/about">About Us</a>
+
+      <!-- Bottom Auth Buttons -->
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="mainContent">
+      {% block body %}
+      {% endblock %}
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("sideMenu");
+        const content = document.getElementById("mainContent");
+        menu.classList.toggle("active");
+        content.classList.toggle("shifted");
+      }
+
+      // Close sidebar when a link is clicked (optional)
+      document.querySelectorAll('.side-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById("sideMenu").classList.remove("active");
+          document.getElementById("mainContent").classList.remove("shifted");
+        });
+      });
+    </script>
+  </body>
+</html>

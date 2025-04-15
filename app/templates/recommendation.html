@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Recommendation Page
+{% endblock %}
+
+{% block body %}
+<!-- 背景视频 -->
+<div class="video-background-container" style="position: relative; height: 100vh; overflow: hidden;">
+  <video autoplay muted loop id="background-video"
+         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+    <source src="{{ url_for('static', filename='videos/recommendation.mp4') }}" type="video/mp4">
+  </video>
+
+  <!-- 半透明表单 + 结果层 -->
+  <div class="overlay-content"
+     style="position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 1200px; background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); padding: 2rem; z-index: 2;">
+
+
+    <!-- 📝 客户偏好表单 -->
+    {% if not submitted %}
+    <h3 class="text-center mb-4">Tell Us Your Preferences</h3>
+    <form method="POST">
+      <div class="row mb-3">
+        <div class="col">
+          <label>Commercial Type</label>
+          <select class="form-select" name="commercial_type" required>
+            <option disabled selected value="">Select a Type</option>
+            <option>Hospitality</option>
+            <option>Industrial</option>
+            <option>Industrial, Land, Office</option>
+            <option>Investment</option>
+            <option>Land</option>
+            <option>Multifamily</option>
+            <option>Multifamily, Retail</option>
+            <option>Office</option>
+            <option>Other</option>
+            <option>Retail</option>
+            <option>Retail, Healthcare</option>
+            <option>Retail, Multifamily</option>
+            <option>Retail, Office</option>
+            <option>Retail, Office, Industrial</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Expected Max Price</label>
+          <input type="number" class="form-control" name="expected_price" required>
+        </div>
+        <div class="col">
+          <label>Max Tax Liability</label>
+          <input type="number" class="form-control" name="max_tax_liability" required>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label>Preferred Population</label>
+          <input type="number" class="form-control" name="preferred_population" required>
+        </div>
+        <div class="col">
+          <label>Min Businesses</label>
+          <input type="number" class="form-control" name="min_businesses" required>
+        </div>
+        <div class="col">
+          <label>Preferred AGI</label>
+          <input type="number" class="form-control" name="preferred_AGI" required>
+        </div>
+      </div>
+
+      <!-- 🚀 Button Group: Clear (left) + Submit (right) -->
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <button type="reset" class="btn btn-outline-secondary px-4">Clear</button>
+        <button type="submit" class="btn btn-primary px-4">Submit</button>
+      </div>
+    </form>
+    {% endif %}
+
+    <!-- 🧠 显示推荐结果 -->
+    {% if submitted and data %}
+    <h3 class="text-center mt-4 mb-2">Recommended Results</h3>
+    <p class="text-center text-muted mb-4">
+      Displaying the <strong>top 4 most successful commercial ZIP codes</strong> based on your preferences.
+    </p>
+
+    <div class="row">
+      <div class="col-md-6" style="max-height: 400px; overflow-y: auto;">
+        <div class="list-group" id="zipcode-list">
+          {% for item in data[:4] %}
+          <a href="#" class="list-group-item list-group-item-action mb-2 shadow-sm"
+             onclick="focusMap({{ item.lat }}, {{ item.lng }}, '{{ item.ZIP_CODE }}')">
+            <h5 class="mb-1">ZIP: {{ item.ZIP_CODE }}</h5>
+            <p class="mb-1">🏠 Avg Price: {{ item.formatted_price }}</p>
+            <small>👥 Population: {{ item.Population }} | 🏢 Businesses number around: {{ item.num_businesses }}</small>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="map" style="height: 400px;" class="rounded shadow-sm"></div>
+      </div>
+    </div>
+
+    <!-- 🔁 Start New Search -->
+    <div class="text-center mt-4">
+      <a href="/recommendation" class="btn btn-outline-primary">
+        Start New Search
+      </a>
+    </div>
+
+    {% elif submitted and not data %}
+    <div class="alert alert-warning mt-4 text-center">
+      😕 Sorry, no ZIP code matched your preferences.
+    </div>
+
+    <!-- 🔁 Start New Search -->
+    <div class="text-center mt-4">
+      <a href="/recommendation" class="btn btn-outline-primary">
+        Start New Search
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+  const data = {{ data | tojson }};
+  let map;
+
+  function initMap() {
+    map = L.map("map").setView([37.7749, -122.4194], 12);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    data.forEach(item => {
+      const marker = L.marker([item.lat, item.lng])
+        .addTo(map)
+        .bindPopup(`<b>ZIP ${item.ZIP_CODE}</b><br>Avg Price: ${item.formatted_price}`);
+    });
+  }
+
+  function focusMap(lat, lng, zip) {
+    map.setView([lat, lng], 14);
+  }
+
+  {% if submitted %}
+  window.onload = initMap;
+  {% endif %}
+</script>
+{% endblock %}

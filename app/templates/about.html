@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  About
+{% endblock %}
+
+{% block body %}
+
+<!-- INTRO SECTION -->
+<div class="text-center py-5" style="background-color: #f6f9fc;">
+  <h2 class="fw-bold mb-4">Meet Our Team</h2>
+  <p class="fs-5 mx-auto" style="max-width: 1200px;">
+    Our team brings together curious minds, local insight, and technical know-how to help people make smarter decisions about commercial real estate in San Francisco.
+    With backgrounds in data science, urban planning, and design, we’re building tools that make site selection faster, clearer, and more impactful.
+    We’re passionate about using data to simplify complex decisions—and we believe better access leads to better outcomes.
+  </p>
+</div>
+
+<!-- TEAM CARDS SECTION -->
+<div class="py-5" style="background-color: #edf2fa;">
+  <div class="d-flex justify-content-center">
+    <div class="position-relative" style="max-width: 1200px; width: 100%; overflow: hidden;">
+      <div id="teamCarousel" class="d-flex gap-4" style="overflow-x: auto; scroll-behavior: smooth;">
+        
+        {% for member in team %}
+        <div class="team-card">
+          <a href="{{ member.linkedin }}" target="_blank" class="team-link">
+            <div class="team-img-wrapper">
+              <img src="{{ url_for('static', filename=member.img) }}" alt="{{ member.name }}">
+              <div class="team-hover-box">
+                <p>View LinkedIn</p>
+              </div>
+            </div>
+          </a>
+          <h5 class="fw-bold mt-2">{{ member.name }}</h5>
+          <p class="text-primary">{{ member.title }}</p>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Arrows -->
+      <button class="carousel-arrow left" onclick="scrollTeam(-1)">&#10094;</button>
+      <button class="carousel-arrow right" onclick="scrollTeam(1)">&#10095;</button>
+    </div>
+  </div>
+</div>
+
+<!-- STYLES -->
+<style>
+  .team-card {
+    width: 250px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .team-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .team-img-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 square */
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .team-img-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+  }
+
+  .team-hover-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #e6eafe;
+    color: #0c1e45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+  }
+
+  .team-img-wrapper:hover .team-hover-box {
+    opacity: 1;
+  }
+
+  .team-img-wrapper:hover img {
+    opacity: 0;
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 35%;
+    background: white;
+    border: none;
+    font-size: 2rem;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-radius: 50%;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+
+  .carousel-arrow:hover {
+    background: #f0f0f0;
+  }
+
+  .carousel-arrow.left {
+    left: 10px;
+  }
+
+  .carousel-arrow.right {
+    right: 10px;
+  }
+
+  #teamCarousel {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #teamCarousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .team-card {
+      width: 45%;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .team-card {
+      width: 90%;
+    }
+  }
+</style>
+
+<!-- JS SCROLL -->
+<script>
+  function scrollTeam(direction) {
+    const carousel = document.getElementById('teamCarousel');
+    const scrollAmount = 270;
+    carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+  }
+</script>
+
+{% endblock %}
