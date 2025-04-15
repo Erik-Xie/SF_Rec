@@ -21,7 +21,31 @@ This project provides a recommendation system to suggest the top 4 potential ZIP
 
 ## Project Structure
 
-SF_REC ├── app │ ├── pycache │ ├── routes │ │ ├── pycache │ │ ├── init.py │ │ ├── about.py │ │ ├── feature.py │ │ ├── home.py │ │ └── recommendation.py │ ├── static │ │ ├── pics │ │ └── videos │ └── templates │ ├── about.html │ ├── base.html │ ├── feature.html │ ├── home.html │ └── recommendation.html ├── .gitignore ├── LICENSE ├── README.md ├── requirements.txt └── run.py
+SF_REC
+├── app
+│   ├── __pycache__
+│   ├── routes
+│   │   ├── __pycache__
+│   │   ├── __init__.py
+│   │   ├── about.py
+│   │   ├── feature.py
+│   │   ├── home.py
+│   │   └── recommendation.py
+│   ├── static
+│   │   ├── pics
+│   │   └── videos
+│   └── templates
+│       ├── about.html
+│       ├── base.html
+│       ├── feature.html
+│       ├── home.html
+│       └── recommendation.html
+├── .gitignore
+├── LICENSE
+├── README.md
+├── requirements.txt
+└── run.py
+
 
 
 ### Directory Breakdown:
