@@ -79,6 +79,8 @@ This project provides a recommendation system to suggest the top 4 potential ZIP
    python run.py
 The application should now be running at http://127.0.0.1:5000.
 
+You can also see at https://sf-rec.onrender.com.
+
 ## Requirements
 
 - Python 3.x
